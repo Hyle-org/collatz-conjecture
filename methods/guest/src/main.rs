@@ -15,7 +15,7 @@ pub fn main() {
         next_state: u32::to_be_bytes(
             if input.initial_state == 1 {
                 match input.suggested_number {
-                    0 => panic!("Cannot restart the chain unless you have got to 0."),
+                    0 => panic!("Cannot reset to 0 as that would block the contract."),
                     a => a
                 }
             } else {
