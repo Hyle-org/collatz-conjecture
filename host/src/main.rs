@@ -1,4 +1,4 @@
-use methods::METHOD_ELF;
+use methods::{METHOD_ELF, METHOD_ID};
 use risc0_zkvm::{default_prover, ExecutorEnv};
 use serde_json;
 
@@ -23,18 +23,15 @@ enum Commands {
 fn main() {
     let cli = Cli::parse();
 
-    match &cli.command {
-        Commands::Next { input } => {
-            let receipt = prove(*input, 0);
-            let receipt_json = serde_json::to_string(&receipt).unwrap();
-            std::fs::write("proof.json", receipt_json).unwrap();
-        }
-        Commands::Reset { input } => {
-            let receipt = prove(1, *input);
-            let receipt_json = serde_json::to_string(&receipt).unwrap();
-            std::fs::write("proof.json", receipt_json).unwrap();
-        }
-    }
+    println!("Running with method ID: 0x{}", METHOD_ID.iter().map(|&id| format!("{:08x}", id)).collect::<Vec<String>>().join(""));
+
+    let receipt = match &cli.command {
+        Commands::Next { input } => prove(*input, 0),
+        Commands::Reset { input } => prove(1, *input)
+    };
+    let receipt_json = serde_json::to_string(&receipt).unwrap();
+    std::fs::write("proof.json", receipt_json).unwrap();
+    println!("proof.json written");
 }
 
 fn prove(initial_state: u32, suggested_number: u32) -> risc0_zkvm::Receipt {
