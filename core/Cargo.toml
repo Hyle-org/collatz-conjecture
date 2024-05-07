@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 serde = { version = "1.0", default-features = false, features = ["derive"] }
+hyle-verifier = { git = "https://github.com/hyle-org/hyle-risc-zero-verifier.git", branch = "main" }

@@ -1,7 +1,7 @@
 # Hylé example RISC Zero smart contract
 
 This repository provides an example smart contract for Hylé, implementing the Collatz Conjecture.
-The Image ID of this smart contract is `0x85dd8705789d7e8eba2f2698bfafae3dbe8d124a059f08b8032e4a1b182dbf57`
+The Image ID of this smart contract is `0x81895070f3026a5b56341be45cf6497329851ed6a847f223d8776f225ad2489c`
 
 ## Installing RISC Zero
 
@@ -22,8 +22,8 @@ cargo run reset X # Reset to X, assuming the current number is a 1
 Install the [Hylé RISC Zero verifier](https://github.com/Hyle-org/hyle-risc-zero-verifier).
 You can then verify proofs using:
 ```sh
-# The verifier currently expects no `0x` prefix
-cargo run 85dd8705789d7e8eba2f2698bfafae3dbe8d124a059f08b8032e4a1b182dbf57 [path_to_proof] [initial_state] [final_state]
+# The verifier currently expects no `0x` prefix. Pass data as base64 values.
+cargo run 81895070f3026a5b56341be45cf6497329851ed6a847f223d8776f225ad2489c [path_to_proof] [initial_state] [final_state]
 ```
 If the proof is malformed, or doesn't respect the rules of the smart contract, the verifier will return an error.
 

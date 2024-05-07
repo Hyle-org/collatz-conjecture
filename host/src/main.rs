@@ -2,7 +2,9 @@ use methods::{METHOD_ELF, METHOD_ID};
 use risc0_zkvm::{default_prover, ExecutorEnv};
 use serde_json;
 
-use collatz_core::Input;
+use base64::prelude::*;
+
+use collatz_core::{HyleOutput, Input};
 
 use clap::{Parser, Subcommand};
 
@@ -23,7 +25,7 @@ enum Commands {
 fn main() {
     let cli = Cli::parse();
 
-    println!("Running with method ID: 0x{}", METHOD_ID.iter().map(|&id| format!("{:08x}", id)).collect::<Vec<String>>().join(""));
+    println!("Running with method ID: {} (hex)", METHOD_ID.iter().map(|&id| format!("{:08x}", id)).collect::<Vec<String>>().join(""));
 
     let receipt = match &cli.command {
         Commands::Next { input } => prove(*input, 0),
@@ -31,7 +33,14 @@ fn main() {
     };
     let receipt_json = serde_json::to_string(&receipt).unwrap();
     std::fs::write("proof.json", receipt_json).unwrap();
-    println!("proof.json written");
+
+    let journal = receipt.journal.decode::<HyleOutput>().unwrap();
+    let initial_state_b64 = BASE64_STANDARD.encode(&journal.initial_state);
+    let next_state_b64 = BASE64_STANDARD.encode(&journal.next_state);
+    let initial_state_u32: u32 = u32::from_be_bytes(journal.initial_state.try_into().unwrap());
+    let next_state_u32: u32 = u32::from_be_bytes(journal.next_state.try_into().unwrap());
+
+    println!("proof.json written, transition from {} ({}) to {} ({})", initial_state_b64, initial_state_u32, next_state_b64, next_state_u32);
 }
 
 fn prove(initial_state: u32, suggested_number: u32) -> risc0_zkvm::Receipt {

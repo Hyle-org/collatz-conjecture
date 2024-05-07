@@ -11,21 +11,23 @@ pub fn main() {
     let input: Input = env::read();
 
     env::commit(&HyleOutput {
-        initial_state: 1,
-        next_state: if input.initial_state == 1 {
-            match input.suggested_number {
-                0 => panic!("Cannot restart the chain unless you have got to 0."),
-                a => a
-            }
-        } else {
-            // Calculate the next number in the collatz conjecture
-            let mut n = input.initial_state;
-            if n % 2 == 0 {
-                n = n / 2;
+        initial_state: u32::to_be_bytes(input.initial_state).to_vec(),
+        next_state: u32::to_be_bytes(
+            if input.initial_state == 1 {
+                match input.suggested_number {
+                    0 => panic!("Cannot restart the chain unless you have got to 0."),
+                    a => a
+                }
             } else {
-                n = 3 * n + 1;
+                // Calculate the next number in the collatz conjecture
+                let mut n = input.initial_state;
+                if n % 2 == 0 {
+                    n = n / 2;
+                } else {
+                    n = 3 * n + 1;
+                }
+                n
             }
-            n
-        }
+        ).to_vec()
     })
 }

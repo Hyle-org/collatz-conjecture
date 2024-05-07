@@ -10,4 +10,5 @@ env_logger = "0.10"
 serde = "1.0"
 serde_json = "1.0.111"
 clap = { version = "4.4.17", features = ["derive"] }
+base64 = "0.22.1"
 collatz-core = { path = "../core" }

@@ -8,8 +8,4 @@ pub struct Input {
     pub suggested_number: u32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct HyleOutput {
-    pub initial_state: u32,
-    pub next_state: u32,
-}
+pub use hyle_verifier::HyleOutput;
