@@ -1,5 +1,7 @@
 #![no_std]
+extern crate alloc;
 
+use alloc::vec::Vec;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -8,4 +10,9 @@ pub struct Input {
     pub suggested_number: u32,
 }
 
-pub use hyle_verifier::HyleOutput;
+#[derive(Serialize, Deserialize, Debug)]
+
+pub struct HyleOutput {
+    pub initial_state: Vec<u8>,
+    pub next_state: Vec<u8>,
+}

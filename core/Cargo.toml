@@ -6,5 +6,4 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = { version = "1.0", default-features = false, features = ["derive"] }
-hyle-verifier = { git = "https://github.com/hyle-org/hyle-risc-zero-verifier.git", branch = "main" }
+serde = { version = "1.0", default-features = false, features = ["derive", "alloc"] }
