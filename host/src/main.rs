@@ -1,5 +1,5 @@
-use methods::{METHOD_ELF, METHOD_ID};
-use risc0_zkvm::{default_prover, ExecutorEnv};
+use methods::METHOD_ELF;
+use risc0_zkvm::{default_prover, sha::Digestible, ExecutorEnv};
 use serde_json;
 
 use base64::prelude::*;
@@ -14,6 +14,9 @@ use clap::{Parser, Subcommand};
 struct Cli {
     #[command(subcommand)]
     command: Commands,
+
+    #[clap(long, short)]
+    reproducible: bool,
 }
 
 #[derive(Subcommand)]
@@ -25,12 +28,20 @@ enum Commands {
 fn main() {
     let cli = Cli::parse();
 
-    println!("Running with method ID: {} (hex)", METHOD_ID.iter().map(|&id| format!("{:08x}", id)).collect::<Vec<String>>().join(""));
+    if cli.reproducible {
+        println!("Running with reproducible ELF binary.");
+    } else {
+        println!("Running non-reproducibly");
+    }
 
     let receipt = match &cli.command {
-        Commands::Next { input } => prove(*input, 0),
-        Commands::Reset { input } => prove(1, *input)
+        Commands::Next { input } => prove(cli.reproducible, *input, 0),
+        Commands::Reset { input } => prove(cli.reproducible, 1, *input)
     };
+
+    let claim = receipt.inner.get_claim().unwrap();
+    println!("Method ID: {:?} (hex)", claim.pre.digest());
+
     let receipt_json = serde_json::to_string(&receipt).unwrap();
     std::fs::write("proof.json", receipt_json).unwrap();
 
@@ -43,7 +54,7 @@ fn main() {
     println!("proof.json written, transition from {} ({}) to {} ({})", initial_state_b64, initial_state_u32, next_state_b64, next_state_u32);
 }
 
-fn prove(initial_state: u32, suggested_number: u32) -> risc0_zkvm::Receipt {
+fn prove(reproducible: bool, initial_state: u32, suggested_number: u32) -> risc0_zkvm::Receipt {
     let env = ExecutorEnv::builder()
         .write(&Input {
             initial_state,
@@ -54,5 +65,11 @@ fn prove(initial_state: u32, suggested_number: u32) -> risc0_zkvm::Receipt {
         .unwrap();
 
     let prover = default_prover();
-    return prover.prove(env, METHOD_ELF).unwrap();
+    let binary = if reproducible {
+        std::fs::read("target/riscv-guest/riscv32im-risc0-zkvm-elf/docker/method/method")
+            .expect("Could not read ELF binary at target/riscv-guest/riscv32im-risc0-zkvm-elf/docker/method/method")
+    } else {
+        METHOD_ELF.to_vec()
+    };
+    prover.prove(env, &binary).unwrap()
 }

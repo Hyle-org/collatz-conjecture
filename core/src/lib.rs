@@ -1,5 +1,4 @@
 #![no_std]
-
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -8,4 +7,4 @@ pub struct Input {
     pub suggested_number: u32,
 }
 
-pub use hyle_verifier::HyleOutput;
+pub use hyle_contract::HyleOutput;
