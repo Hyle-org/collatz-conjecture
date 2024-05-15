@@ -2,19 +2,23 @@
 #![no_std]
 
 use risc0_zkvm::guest::env;
+use hyle_contract::{HyleInput, HyleOutput};
 
 risc0_zkvm::guest::entry!(main);
 
-use collatz_core::{Input, HyleOutput};
-
 pub fn main() {
-    let input: Input = env::read();
+    let input: HyleInput<u32> = env::read();
 
     env::commit(&HyleOutput {
+        block_number: input.block_number,
+        block_time: input.block_time,
+        caller: input.caller,
+        tx_hash: input.tx_hash,
+        program_outputs: Some("Any output heehee"),
         initial_state: u32::to_be_bytes(input.initial_state).to_vec(),
         next_state: u32::to_be_bytes(
             if input.initial_state == 1 {
-                match input.suggested_number {
+                match input.program_inputs.unwrap() {
                     0 => panic!("Cannot reset to 0 as that would block the contract."),
                     a => a
                 }

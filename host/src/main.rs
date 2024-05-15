@@ -3,10 +3,8 @@ use risc0_zkvm::{default_prover, sha::Digestible, ExecutorEnv};
 use serde_json;
 
 use base64::prelude::*;
-
-use collatz_core::{HyleOutput, Input};
-
 use clap::{Parser, Subcommand};
+use hyle_contract::{HyleInput, HyleOutput};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -40,25 +38,36 @@ fn main() {
     };
 
     let claim = receipt.inner.get_claim().unwrap();
-    println!("Method ID: {:?} (hex)", claim.pre.digest());
 
     let receipt_json = serde_json::to_string(&receipt).unwrap();
     std::fs::write("proof.json", receipt_json).unwrap();
 
-    let journal = receipt.journal.decode::<HyleOutput>().unwrap();
-    let initial_state_b64 = BASE64_STANDARD.encode(&journal.initial_state);
-    let next_state_b64 = BASE64_STANDARD.encode(&journal.next_state);
-    let initial_state_u32: u32 = u32::from_be_bytes(journal.initial_state.try_into().unwrap());
-    let next_state_u32: u32 = u32::from_be_bytes(journal.next_state.try_into().unwrap());
+    let hyle_output = receipt.journal.decode::<HyleOutput<String>>().unwrap();
 
+    let initial_state_b64 = BASE64_STANDARD.encode(&hyle_output.initial_state);
+    let next_state_b64 = BASE64_STANDARD.encode(&hyle_output.next_state);
+    let initial_state_u32: u32 = u32::from_be_bytes(hyle_output.initial_state.try_into().unwrap());
+    let next_state_u32: u32 = u32::from_be_bytes(hyle_output.next_state.try_into().unwrap());
+    let block_number: u32 = hyle_output.block_number;
+    let block_time: u32= hyle_output.block_time;
+    let program_outputs = hyle_output.program_outputs.unwrap_or("default".to_owned());
+
+    println!("{}", "-".repeat(20));
+    println!("Method ID: {:?} (hex)", claim.pre.digest());
     println!("proof.json written, transition from {} ({}) to {} ({})", initial_state_b64, initial_state_u32, next_state_b64, next_state_u32);
+    println!("Aiming block {} at time {}.", block_number, block_time);
+    println!("Program outputted {:?}", program_outputs);
 }
 
 fn prove(reproducible: bool, initial_state: u32, suggested_number: u32) -> risc0_zkvm::Receipt {
     let env = ExecutorEnv::builder()
-        .write(&Input {
+        .write(&HyleInput {
+            block_number: 0, //TODO
+            block_time: 0, //TODO
+            caller: vec![1], //TODO
+            tx_hash: vec![1], //TODO
             initial_state,
-            suggested_number,
+            program_inputs: Some(suggested_number),
         })
         .unwrap()
         .build()
