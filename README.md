@@ -8,11 +8,11 @@ Please refer to [RiscZero's installation guide](https://dev.risczero.com/api/zkv
 
 ## Reproducible builds
 
-RISC Zero provides using a docker setup. Simply run
+RISC Zero provides using a docker setup. Simply run to build the smart contract ; 
 ```bash
 cargo risczero build --manifest-path methods/guest/Cargo.toml
 ```
-to build the smart contract.
+
 
 The reproducible Image ID of this smart contract is currently `0x14ecbb1bc768586be869bb32be7a337fc3c0c67d51ebfe9a4baf6570446b9e12`
 
