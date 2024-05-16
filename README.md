@@ -28,7 +28,7 @@ cargo run -- -r next X # For reproducible builds
 ```bash
 cargo run reset X # Reset to X, assuming the current number is a 1
 
-cargo run -- -r reset X # For reproducible builds:
+cargo run -- -r reset X # For reproducible builds
 ```
 
 ### Verifying locally
