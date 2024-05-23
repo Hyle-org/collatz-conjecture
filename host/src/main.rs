@@ -63,7 +63,7 @@ fn prove(reproducible: bool, initial_state: u32, suggested_number: u32) -> risc0
     let env = ExecutorEnv::builder()
         .write(&HyleInput {
             initial_state: initial_state.to_be_bytes().to_vec(),
-            sender: "".to_string(), //TODO
+            origin: "".to_string(), //TODO
             caller: "".to_string(), //TODO
             block_number: 0, //TODO
             block_time: 0, //TODO

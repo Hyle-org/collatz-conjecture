@@ -14,7 +14,7 @@ pub fn main() {
         version: 1,
         block_number: input.block_number,
         block_time: input.block_time,
-        sender: input.sender,
+        origin: input.origin,
         caller: input.caller,
         tx_hash: input.tx_hash,
         program_outputs: "Any output heehee",
