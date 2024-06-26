@@ -48,14 +48,11 @@ fn main() {
     let next_state_b64 = BASE64_STANDARD.encode(&hyle_output.next_state);
     let initial_state_u32 = u32::from_be_bytes(hyle_output.initial_state.try_into().unwrap());
     let next_state_u32 = u32::from_be_bytes(hyle_output.next_state.try_into().unwrap());
-    let block_number = hyle_output.block_number;
-    let block_time = hyle_output.block_time;
     let program_outputs = hyle_output.program_outputs;
 
     println!("{}", "-".repeat(20));
     println!("Method ID: {:?} (hex)", claim.pre.digest());
     println!("proof.json written, transition from {} ({}) to {} ({})", initial_state_b64, initial_state_u32, next_state_b64, next_state_u32);
-    println!("Aiming block {} at time {}.", block_number, block_time);
     println!("Program outputted {:?}", program_outputs);
 }
 
@@ -63,10 +60,6 @@ fn prove(reproducible: bool, initial_state: u32, suggested_number: u32) -> risc0
     let env = ExecutorEnv::builder()
         .write(&HyleInput {
             initial_state: initial_state.to_be_bytes().to_vec(),
-            origin: "".to_string(), //TODO
-            caller: "".to_string(), //TODO
-            block_number: 0, //TODO
-            block_time: 0, //TODO
             tx_hash: vec![1], //TODO
             program_inputs: suggested_number,
         })

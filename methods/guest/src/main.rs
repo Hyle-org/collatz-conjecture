@@ -12,10 +12,6 @@ pub fn main() {
     let initial_state = u32::from_be_bytes(input.initial_state.clone().try_into().unwrap());
     env::commit(&HyleOutput {
         version: 1,
-        block_number: input.block_number,
-        block_time: input.block_time,
-        origin: input.origin,
-        caller: input.caller,
         tx_hash: input.tx_hash,
         program_outputs: "Any output heehee",
         initial_state: input.initial_state,
