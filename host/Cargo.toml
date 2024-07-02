@@ -4,8 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-#hyle_contract = { git = "https://github.com/hyle-org/hyle-risc-zero-verifier.git", branch = "main" }
-hyle_contract = { path = "../../hyle-risc-zero-verifier/hyle-contract" }
+hyle_contract = { git = "https://github.com/hyle-org/verifiers-for-hyle.git", branch = "main" }
 methods = { path = "../methods" }
 risc0-zkvm = { version = "0.21" }
 env_logger = "0.10"

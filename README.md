@@ -33,7 +33,7 @@ cargo run -- -r reset X
 
 ### Verifying locally
 
-Install the [Hylé RISC Zero verifier](https://github.com/Hyle-org/hyle-risc-zero-verifier).
+Install the [Hylé RISC Zero verifier](https://github.com/Hyle-org/verifiers-for-hyle).
 You can then verify proofs using:
 ```sh
 # The verifier currently expects no `0x` prefix. Pass data as base64 values.
