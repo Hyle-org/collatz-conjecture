@@ -9,13 +9,14 @@ Please refer to [RiscZero's installation guide](https://dev.risczero.com/api/zkv
 ## Reproducible builds
 
 RISC Zero provides using a docker setup. Simply run
+
 ```bash
 cargo risczero build --manifest-path methods/guest/Cargo.toml
 ```
+
 to build the smart contract.
 
-The reproducible Image ID of this smart contract is currently `0x14ecbb1bc768586be869bb32be7a337fc3c0c67d51ebfe9a4baf6570446b9e12`
-
+The reproducible Image ID of this smart contract is currently `0xe413a0dcd0a82050d3f65b955a7a9a202f1464c4ceae4beea914ac8a13079f5d`
 
 ## Running the smart contract
 
@@ -33,14 +34,16 @@ cargo run -- -r reset X
 
 ### Verifying locally
 
-Install the [Hylé RISC Zero verifier](https://github.com/Hyle-org/verifiers-for-hyle).
+Install the [Hylé RISC Zero verifier](https://github.com/Hyle-org/hyle).
 You can then verify proofs using:
+
 ```sh
 # The verifier currently expects no `0x` prefix. Pass data as base64 values.
-cargo run -p risc0-verifier 14ecbb1bc768586be869bb32be7a337fc3c0c67d51ebfe9a4baf6570446b9e12 [path_to_proof] [initial_state] [final_state]
+cargo run -p risc0-verifier e413a0dcd0a82050d3f65b955a7a9a202f1464c4ceae4beea914ac8a13079f5d [path_to_proof] [initial_state] [final_state]
 ```
+
 If the proof is malformed, or doesn't respect the rules of the smart contract, the verifier will return an error.
 
 ## Verifying on Hylé
 
-Once you [installed the CLI](https://docs.hyle.eu/developers/using-the-cli/hyled-install-instructions/) and got [connected to devnet](https://docs.hyle.eu/developers/using-the-cli/connect-to-devnet/), you should be able to [_register_ and _execute_ for your contract](https://docs.hyle.eu/developers/using-the-cli/your-first-smart-contract/).
+Follow the instructions on the [Hylé documentation](https://docs.hyle.org).
