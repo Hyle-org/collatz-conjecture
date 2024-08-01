@@ -34,7 +34,7 @@ fn main() {
 
     let receipt = match &cli.command {
         Commands::Next { input } => prove(cli.reproducible, *input, 0),
-        Commands::Reset { input } => prove(cli.reproducible, 1, *input)
+        Commands::Reset { input } => prove(cli.reproducible, 1, *input),
     };
 
     let claim = receipt.inner.get_claim().unwrap();
@@ -52,8 +52,15 @@ fn main() {
 
     println!("{}", "-".repeat(20));
     println!("Method ID: {:?} (hex)", claim.pre.digest());
-    println!("proof.json written, transition from {} ({}) to {} ({})", initial_state_b64, initial_state_u32, next_state_b64, next_state_u32);
+    println!(
+        "proof.json written, transition from {} ({}) to {} ({})",
+        initial_state_b64, initial_state_u32, next_state_b64, next_state_u32
+    );
     println!("Program outputted {:?}", program_outputs);
+    println!(
+        "Payload hash {:?}",
+        BASE64_STANDARD.encode(hyle_output.payload_hash)
+    );
 }
 
 fn prove(reproducible: bool, initial_state: u32, suggested_number: u32) -> risc0_zkvm::Receipt {
@@ -61,7 +68,7 @@ fn prove(reproducible: bool, initial_state: u32, suggested_number: u32) -> risc0
         .write(&HyleInput {
             initial_state: initial_state.to_be_bytes().to_vec(),
             identity: "".to_string(), //TODO
-            tx_hash: vec![1], //TODO
+            tx_hash: vec![1],         //TODO
             program_inputs: suggested_number,
         })
         .unwrap()
