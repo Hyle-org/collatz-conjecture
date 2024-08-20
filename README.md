@@ -43,4 +43,4 @@ If the proof is malformed, or doesn't respect the rules of the smart contract, t
 
 ## Verifying on Hylé
 
-Once you [installed the CLI](https://docs.hyle.eu/getting-started/hyled-install-instructions/) and got [connected to devnet](https://docs.hyle.eu/getting-started/connect-to-devnet/), you should be able to [_register_ and _execute_ for your contract](https://docs.hyle.eu/getting-started/your-first-smart-contract/).
+Once you [installed the CLI](https://docs.hyle.eu/developers/using-the-cli/hyled-install-instructions/) and got [connected to devnet](https://docs.hyle.eu/developers/using-the-cli/connect-to-devnet/), you should be able to [_register_ and _execute_ for your contract](https://docs.hyle.eu/developers/using-the-cli/your-first-smart-contract/).
