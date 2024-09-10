@@ -46,4 +46,4 @@ If the proof is malformed, or doesn't respect the rules of the smart contract, t
 
 ## Verifying on Hylé
 
-Follow the instructions on the [Hylé documentation](https://docs.hyle.org).
+Follow the instructions on the [Hylé documentation](https://docs.hyle.eu).
