@@ -37,7 +37,7 @@ fn main() {
         Commands::Reset { input } => prove(cli.reproducible, 1, *input),
     };
 
-    let claim = receipt.inner.get_claim().unwrap();
+    let claim = receipt.inner.claim().unwrap();
 
     let receipt_json = serde_json::to_string(&receipt).unwrap();
     std::fs::write("proof.json", receipt_json).unwrap();
@@ -51,7 +51,7 @@ fn main() {
     let program_outputs = hyle_output.program_outputs;
 
     println!("{}", "-".repeat(20));
-    println!("Method ID: {:?} (hex)", claim.pre.digest());
+    println!("Method ID: {:?} (hex)", claim.value().unwrap().pre.digest());
     println!(
         "proof.json written, transition from {} ({}) to {} ({})",
         initial_state_b64, initial_state_u32, next_state_b64, next_state_u32
@@ -82,5 +82,5 @@ fn prove(reproducible: bool, initial_state: u32, suggested_number: u32) -> risc0
     } else {
         METHOD_ELF.to_vec()
     };
-    prover.prove(env, &binary).unwrap()
+    prover.prove(env, &binary).unwrap().receipt
 }
