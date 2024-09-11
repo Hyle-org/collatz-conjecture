@@ -58,8 +58,8 @@ fn main() {
     );
     println!("Program outputted {:?}", program_outputs);
     println!(
-        "Payload hash {:?}",
-        BASE64_STANDARD.encode(hyle_output.payload_hash)
+        "Payloads {:?}",
+        BASE64_STANDARD.encode(hyle_output.payloads)
     );
 }
 
