@@ -16,7 +16,7 @@ cargo risczero build --manifest-path methods/guest/Cargo.toml
 
 to build the smart contract.
 
-The reproducible Image ID of this smart contract is currently `0xe413a0dcd0a82050d3f65b955a7a9a202f1464c4ceae4beea914ac8a13079f5d`
+The reproducible Image ID of this smart contract is currently `0x826d7874ef3935e5ee2d7d9ed54753791a8a1334ec02e2f7d6b63034013c4ae4`
 
 ## Running the smart contract
 
